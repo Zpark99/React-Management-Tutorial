@@ -2,16 +2,16 @@
   "name": "management",
   "version": "1.0.0",
   "scripts": {
-    "client": "cd client && npm start",
-    "server": "nodemon server.js",
-    "dev": "concurrently --kill-others-on-fail \"npm server\" \"npm start\""
+      "client": "cd client && npm start",
+      "server": "nodemon server.js",
+      "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\""
   },
   "dependencies": {
-    "body-parser": "^1.18.3",
-    "express": "4.21.1"
+     "body-parser": "^1.18.3",
+     "express": "4.21.1"
   },
   "devDependencies": {
-    "concurrently": "^9.0.1",
-    "nodemon": "^3.1.7"
+      "concurrently": "^9.0.1",
+      "nodemon": "^3.1.7"
   }
 }

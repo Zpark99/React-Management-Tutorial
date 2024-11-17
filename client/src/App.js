@@ -18,33 +18,27 @@ const StyledTable = styled(Table)(({ theme }) => ({
 }));
 
 const customers = [
-  {
-    'id': 1,
-    'image': 'https://placeimg.com/64/64/1',
-    'name': '박진재',
-    'birthday': '960530',
-    'gender': '남자',
-    'job': '대학생'
-  },
-  {
-    'id': 2,
-    'image': 'https://placeimg.com/64/64/2',
-    'name': '김영기',
-    'birthday': '950530',
-    'gender': '남자',
-    'job': '대학생'
-  },
-  {
-    'id': 3,
-    'image': 'https://placeimg.com/64/64/3',
-    'name': '박민',
-    'birthday': '940530',
-    'gender': '남자',
-    'job': '대학생'
-  },
+  
 ]
 
 class App extends Component { //Component: app 를 그릴 수 있는 최소 단위
+  
+  state = {
+    customers: ""
+  }
+
+  componentDidMount() {
+    this.callAPi()
+      .then(res => this.setState({customers: res}))
+      .catch(err => console.log(err));
+  }
+
+  callAPi = async () => {
+    const response = await fetch('/api/customers');
+    const body = await response.json();
+    return body;
+  }
+
   render() { //render는 return 구문을 써서 반환 
     return (
       <StyledPaper>
@@ -60,7 +54,9 @@ class App extends Component { //Component: app 를 그릴 수 있는 최소 단�
             </TableRow>
           </TableHead>
           <TableBody>
-            {customers.map(c => { return ( <Customer key={c.id} id={c.id} image={c.image} name={c.name} birthday={c.birthday} gender={c.gender} job={c.job} /> ); }) }
+            {this.state.customers ? this.state.customers.map(c => { 
+              return ( <Customer key={c.id} id={c.id} image={c.image} name={c.name} birthday={c.birthday} gender={c.gender} job={c.job} /> ); 
+            }) : ""}
           </TableBody>
         </StyledTable>
       </StyledPaper>
