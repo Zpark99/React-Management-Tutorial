@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import Customer from './components/Customer';
 import './App.css';
+import CustomerAdd from './components/CustmoerAdd';
 import Paper from '@mui/material/Paper';
 import { Table, TableHead, TableBody, TableRow, TableCell } from '@mui/material';
 import { styled } from '@mui/system'; // MUI v5 styled API 사용, 최신버전 사용한다는 뜻
@@ -108,6 +109,7 @@ class App extends Component { //Component: app 를 그릴 수 있는 최소 단�
 
   render() { //render는 return 구문을 써서 반환 
     return (
+      <div>
       <StyledPaper>   
         <StyledTable>
           <TableHead>
@@ -133,9 +135,10 @@ class App extends Component { //Component: app 를 그릴 수 있는 최소 단�
           </TableBody>
         </StyledTable>
       </StyledPaper>
+      <CustomerAdd/>
+      </div>
     );
   }
 }
 
 export default App;
-// 이거 추가 코드있었는데 왜 지워도 되는가 생각해보기 
