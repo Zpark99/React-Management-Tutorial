@@ -80,9 +80,22 @@ props or state => shouldComponentUpdate()
 
 class App extends Component { //Component: app 를 그릴 수 있는 최소 단위
   
-  state = {
-    customers: "",
-    completed: 0
+  constructor(props) {
+    super(props);
+    this.state = {
+      customers: '',
+      completed: 0
+    }
+  }
+
+  stateRefresh = () => {
+    this.setState({
+      customers: '',
+      completed: 0
+    });
+    this.callAPi()
+      .then(res => this.setState({customers: res}))
+      .catch(err => console.log(err));
   }
 
   componentDidMount() {
@@ -105,7 +118,9 @@ class App extends Component { //Component: app 를 그릴 수 있는 최소 단�
   progress = () => {
     const { completed } = this.state;
     this.setState({ completed: completed >= 100 ? 0 : completed + 1 });
+  
   }
+
 
   render() { //render는 return 구문을 써서 반환 
     return (
@@ -124,18 +139,26 @@ class App extends Component { //Component: app 를 그릴 수 있는 최소 단�
           </TableHead>
           <TableBody>
             {this.state.customers ? this.state.customers.map(c => (
-              <Customer key={c.id} id={c.id} image={c.image} name={c.name} birthday={c.birthday} gender={c.gender} job={c.job} />  
-            )) : (
-            <TableRow>
-              <TableCell colSpan="6" align="center">
-                <CircularProgressWithLabel value={this.state.completed} />           
-              </TableCell>
-            </TableRow> 
-          )}
-          </TableBody>
-        </StyledTable>
-      </StyledPaper>
-      <CustomerAdd/>
+              <Customer key={c.id} 
+                        id={c.id} 
+                        image={c.image} 
+                        name={c.name} 
+                        birthday={c.birthday} 
+                        gender={c.gender} 
+                        job={c.job} 
+                        imageWidth={this.state.imageWidth} //동적인 이미지 전달
+                        />  
+                      )) : (
+                        <TableRow>
+                          <TableCell colSpan="6" align="center">
+                            <CircularProgressWithLabel value={this.state.completed} />           
+                          </TableCell>
+                        </TableRow> 
+                      )}
+                    </TableBody>
+                  </StyledTable>
+                </StyledPaper>
+                <CustomerAdd stateRefresh={this.stateRefresh}/>
       </div>
     );
   }

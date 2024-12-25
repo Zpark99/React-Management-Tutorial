@@ -20,6 +20,9 @@ const connection = mysql.createConnection({
 });
 connection.connect();
 
+const multer = require('multer');
+const upload = multer({dest: './upload'})
+
 app.get('/api/customers' , (req, res) => {
     connection.query(
       "SELECT * FROM CUSTOMER",
@@ -28,5 +31,30 @@ app.get('/api/customers' , (req, res) => {
       }
     );
 }); 
+
+app.use('/image', express.static('./upload'));
+
+app.post('/api/customers', upload.single('image'), (req,res) => {
+  let sql = 'INSERT INTO CUSTOMER VALUES (null, ?, ?, ?, ?, ?)';
+  let image = '/image/' + req.file.filename;
+  let name = req.body.name;
+  let birthday = req.body.birthday;
+  let gender = req.body.gender;
+  let job = req.body.job;
+  console.log(name);
+  console.log(image);
+  console.log(birthday);
+  console.log(gender);
+  console.log(job);
+  let params = [image, name, birthday, gender, job];
+  connection.query(sql, params,
+      (err, rows, fields) => {
+          res.send(rows);
+          console.log(err);
+          console.log(rows);
+      }
+  );
+});
+
 app.listen(port, () => console.log(`Listening on port ${port}`));
 

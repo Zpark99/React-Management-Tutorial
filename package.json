@@ -7,12 +7,18 @@
     "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\""
   },
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "body-parser": "^1.18.3",
     "express": "4.21.1",
-    "mysql": "^2.18.1"
+    "multer": "^1.4.5-lts.1",
+    "mysql": "^2.18.1",
+    "ws": "^8.18.0"
   },
   "devDependencies": {
     "concurrently": "^9.0.1",
-    "nodemon": "^3.1.7"
+    "nodemon": "^3.1.7",
+    "webpack": "^5.97.1",
+    "webpack-cli": "^6.0.1",
+    "webpack-dev-server": "^5.2.0"
   }
 }
