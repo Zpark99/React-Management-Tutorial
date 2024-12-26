@@ -7,7 +7,7 @@ import CustomerAdd from './components/CustmoerAdd';
 import Paper from '@mui/material/Paper';
 import { Table, TableHead, TableBody, TableRow, TableCell } from '@mui/material';
 import { styled } from '@mui/system'; // MUI v5 styled API 사용, 최신버전 사용한다는 뜻
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'; // props type 추가 
 import CircularProgress from '@mui/material/CircularProgress';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -84,7 +84,8 @@ class App extends Component { //Component: app 를 그릴 수 있는 최소 단�
     super(props);
     this.state = {
       customers: '',
-      completed: 0
+      completed: 0,
+      imageWidth: 100 // 이미지 너비 설정
     }
   }
 
@@ -134,12 +135,14 @@ class App extends Component { //Component: app 를 그릴 수 있는 최소 단�
               <TableCell>이름</TableCell>
               <TableCell>생년월일</TableCell>
               <TableCell>성별</TableCell>
-              <TableCell>직업</TableCell> {/* 중복 제거 */}
+              <TableCell>직업</TableCell>
+              <TableCell>설정</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {this.state.customers ? this.state.customers.map(c => (
-              <Customer key={c.id} 
+              <Customer stateRefresh={this.stateRefresh}
+                        key={c.id} 
                         id={c.id} 
                         image={c.image} 
                         name={c.name} 
@@ -155,7 +158,7 @@ class App extends Component { //Component: app 를 그릴 수 있는 최소 단�
                           </TableCell>
                         </TableRow> 
                       )}
-                    </TableBody>
+          </TableBody>
                   </StyledTable>
                 </StyledPaper>
                 <CustomerAdd stateRefresh={this.stateRefresh}/>
