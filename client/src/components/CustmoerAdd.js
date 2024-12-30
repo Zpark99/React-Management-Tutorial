@@ -1,6 +1,13 @@
 import React from "react";
 import axios from 'axios';
-import PropTypes from 'prop-types'; // prop validation을 위한 PropTypes
+import { Dialog, DialogTitle, Button, DialogContent, TextField, DialogActions } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import PropTypes from 'prop-types'; // PropTypes 추가
+
+// 스타일 정의
+const HiddenInput = styled('input')({
+    display: 'none'
+});
 
 class CustomerAdd extends React.Component {
 
@@ -12,7 +19,8 @@ class CustomerAdd extends React.Component {
             birthday: '',
             gender: '',
             job: '',
-            fileName: ''
+            fileName: '',
+            open: false
         }
     }
 
@@ -23,17 +31,14 @@ class CustomerAdd extends React.Component {
                 console.log(response.data);
                 this.props.stateRefresh();
             })
-            .catch(error => {
-                console.error('에러가 발생했습니다!', error);
-            });
-
         this.setState({
             file: null,
             userName: '',
             birthday: '',
             gender: '',
             job: '',
-            fileName: ''
+            fileName: '',
+            open: false
         })
     }
 
@@ -91,11 +96,12 @@ class CustomerAdd extends React.Component {
         })
     }
 
-    handleValueChange = (e) => {
+    handleValueChange = (e) => { 
         let nextState = {};
         nextState[e.target.name] = e.target.value;
         this.setState(nextState);
-    }
+    } 
+
 
     addCustomer = () => {
         const url = 'api/customers';
@@ -103,7 +109,7 @@ class CustomerAdd extends React.Component {
         formData.append('image', this.state.file);
         formData.append('name', this.state.userName);
         formData.append('birthday', this.state.birthday);
-        formData.append('gender', this.state.birthday);
+        formData.append('gender', this.state.gender);
         formData.append('job', this.state.job);
         const config = {
             headers: {
@@ -112,27 +118,61 @@ class CustomerAdd extends React.Component {
         }
         return axios.post(url, formData, config);
     }
+
+    handleClickOpen = () => {
+        this.setState({
+            open: true
+        });
+    }
+
+    handleClose = () => { //binding처리?
+        this.setState({
+            file: null,
+            userName: '',
+            birthday: '',
+            gender: '',
+            job: '',
+            fileName: '',
+            open: false
+        });
+    }
     
     render() {
         return (
-          <form onSubmit={this.handleSubmit}>
-            <h1>고객 추가</h1>
-            프로필 이미지: <input type="file" name="file" onChange={this.handleFileChange}/><br />
-            이름: <input type="text" name="userName" value={this.state.userName} onChange={this.handleValueChange}/><br />
-            생년월일: <input type="text" name="birthday" value={this.state.birthday} onChange={this.handleValueChange}/><br />
-            성별: <input type="text" name="gender" value={this.state.gender} onChange={this.handleValueChange}/><br />
-            직업: <input type="text" name="job" value={this.state.job} onChange={this.handleValueChange}/><br />
-            <button type="submit">추가하기</button>
-          </form> 
+            <div>
+                <Button variant="contained" color="primary" onClick={this.handleClickOpen}>
+                    고객 추가하기
+                </Button>
+                <Dialog open={this.state.open} onClose={this.handleClose}>
+                    <DialogTitle>고객 추가</DialogTitle>
+                <DialogContent>
+                    <HiddenInput accept="image/*" id="raised-button-file" type="file" onChange={this.handleFileChange}/>
+                    <label htmlFor="raised-button-file">
+                        <Button variant="contained" color="primary" component="span">
+                            {this.state.fileName === "" ? "프로필 이미지 선택" : this.state.fileName}
+                        </Button>
+                    </label>
+                    <br/>
+                    <TextField label="이름" name="userName" value={this.state.userName} onChange={this.handleValueChange}/><br />
+                    <TextField label="생년월일" name="birthday" value={this.state.birthday} onChange={this.handleValueChange}/><br />
+                    <TextField label="성별" name="gender" value={this.state.gender} onChange={this.handleValueChange}/><br />
+                    <TextField label="직업" name="job" value={this.state.job} onChange={this.handleValueChange}/><br />
+                </DialogContent>
+                <DialogActions>
+                    <Button variant="contained" color="primary" onClick={this.handleSubmit}>추가</Button>
+                    <Button variant="outlined" color="primary" onClick={this.handleClose}>닫기</Button>
+                </DialogActions>
+            </Dialog>
+        </div>      
         );     
     }
 }
 
+// PropTypes 정의
 CustomerAdd.propTypes = {
-    stateRefresh: PropTypes.func.isRequired,  // stateRefresh가 함수 타입으로 전달됨을 정의
-  };
-
-// file={this.state.file}
-// value={this.state.fileName}
+    stateRefresh: PropTypes.func.isRequired
+};
 
 export default CustomerAdd;
+
+//모르겠음 

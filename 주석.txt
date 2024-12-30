@@ -1,0 +1,51 @@
+수정 전
+
+<DialogContent>
+  <HiddenInput
+    accept="image/*"
+    id="raised-button-file" 
+    type="file" // type="file" 추가
+    onChange={this.handleFileChange}
+  />
+  <label htmlFor="raised-button-file"> 
+    <Button
+      variant="contained"
+      color="primary"
+      component="span"
+    >
+      {this.state.fileName === "" ? "프로필 이미지 선택" : this.state.fileName}
+    </Button>
+  </label>
+  <br/>
+  <TextField label="이름" name="userName" value={this.state.userName} onChange={this.handleValueChange}/><br />
+  <TextField label="생년월일" name="birthday" value={this.state.birthday} onChange={this.handleValueChange}/><br />
+  <TextField label="성별" name="gender" value={this.state.gender} onChange={this.handleValueChange}/><br />
+  <TextField label="직업" name="job" value={this.state.job} onChange={this.handleValueChange}/><br />
+</DialogContent>
+
+수정 후 
+
+<DialogContent>
+  <HiddenInput
+    accept="image/*"
+    id="raised-button-file" 
+    type="file" // type="file" 추가
+    onChange={this.handleFileChange}
+  />
+  <label htmlFor="raised-button-file"> 
+    <Button
+      variant="contained"
+      color="primary"
+      component="span"
+    >
+      {this.state.fileName === "" ? "프로필 이미지 선택" : this.state.fileName}
+    </Button>
+  </label>
+  <br/>
+  <TextField label="이름" name="userName" value={this.state.userName} onChange={this.handleValueChange}/><br />
+  <TextField label="생년월일" name="birthday" value={this.state.birthday} onChange={this.handleValueChange}/><br />
+  <TextField label="성별" name="gender" value={this.state.gender} onChange={this.handleValueChange}/><br />
+  <TextField label="직업" name="job" value={this.state.job} onChange={this.handleValueChange}/><br />
+</DialogContent>
+
+-> 질문 관련 코드 싹다 끌고와서 질문 정확하게 하기 
