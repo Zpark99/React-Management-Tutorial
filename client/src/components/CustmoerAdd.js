@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'; // PropTypes 추가
 
 // 스타일 정의
 const HiddenInput = styled('input')({
-    display: 'none'
+    display: "none"
 });
 
 class CustomerAdd extends React.Component {
@@ -139,7 +139,7 @@ class CustomerAdd extends React.Component {
     
     render() {
         return (
-            <div>
+            <div className="menu" style={{ display: 'flex', justifyContent: 'center', marginTop: '20px'}}>
                 <Button variant="contained" color="primary" onClick={this.handleClickOpen}>
                     고객 추가하기
                 </Button>

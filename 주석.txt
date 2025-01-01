@@ -49,3 +49,11 @@
 </DialogContent>
 
 -> 질문 관련 코드 싹다 끌고와서 질문 정확하게 하기 
+
+<TableCell>번호</TableCell>
+              <TableCell>이미지</TableCell>
+              <TableCell>이름</TableCell>
+              <TableCell>생년월일</TableCell>
+              <TableCell>성별</TableCell>
+              <TableCell>직업</TableCell>
+              <TableCell>설정</TableCell>
