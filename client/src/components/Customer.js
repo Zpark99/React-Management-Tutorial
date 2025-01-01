@@ -14,7 +14,7 @@ class Customer extends React.Component {
           <img 
             src={this.props.image} 
             alt="profile" 
-            width={this.props.imageWidth} // 이미지 너비 설정
+            style = {{ width: '150px', height: '150px'}} // 이미지 너비 설정
           />
           </TableCell>
           <TableCell>{this.props.name}</TableCell>
@@ -35,7 +35,6 @@ Customer.propTypes = {
   gender: PropTypes.string.isRequired,
   job: PropTypes.string.isRequired, 
   stateRefresh: PropTypes.func.isRequired, 
-  imageWidth: PropTypes.number.isRequired
 };
 
 export default Customer;
