@@ -3,10 +3,10 @@
 import React, { Component } from 'react';
 import Customer from './components/Customer';
 import './App.css';
-import CustomerAdd from './components/CustmoerAdd';
+import CustomerAdd from './components/CustomerAdd';
 import Paper from '@mui/material/Paper';
 import { Table, TableHead, TableBody, TableRow, TableCell} from '@mui/material';
-import { styled, alpha } from '@mui/material/styles'; // MUI v5 styled API 사용, 최신버전 사용한다는 뜻
+import { styled, alpha } from '@mui/system'; // MUI v5 styled API 사용, 최신버전 사용한다는 뜻
 import PropTypes from 'prop-types'; // props type 추가 
 import CircularProgress from '@mui/material/CircularProgress';
 import Typography from '@mui/material/Typography';
@@ -134,14 +134,15 @@ class App extends Component { //Component: app 를 그릴 수 있는 최소 단�
     this.state = {
       customers: '',
       completed: 0,
-      imageWidth: 100 // 이미지 너비 설정
+      searchKeyword: ''
     }
   }
 
   stateRefresh = () => {
     this.setState({
       customers: '',
-      completed: 0
+      completed: 0,
+      searchKeyword: ''
     });
     this.callAPi()
       .then(res => this.setState({customers: res}))
@@ -171,9 +172,22 @@ class App extends Component { //Component: app 를 그릴 수 있는 최소 단�
   
   }
 
+  handleValueChange = (e) => {
+    let nextstate = {};
+    nextstate[e.target.name] = e.target.value;
+    this.setState(nextstate);
+  }
 
-render() { //render는 return 구문을 써서 반환 
+render() { //render는 return 구문을 써서 반환  
   const cellList = ["번호", "프로필 이미지", "이름", "생년월일", "성별", "직업", "설정"]
+  const filteredComponents = (data) => {
+    data = data.filter((c) => {
+      return c.name.indexOf(this.state.searchKeyword) > -1;
+    });
+    return data.map((c) => {
+      return <Customer stateRefresh={this.stateRefresh} key={c.id} id={c.id} image={c.image} name={c.name} birthday={c.birthday} gender={c.gender} job={c.job} />
+    })
+  }
     return (
       <div>
       <Box sx={{ flexGrow: 1 }}>
@@ -203,6 +217,9 @@ render() { //render는 return 구문을 써서 반환
             <StyledInputBase
               placeholder="검색하기"
               inputProps={{ 'aria-label': 'search' }}
+              name = "searchKeyword"
+              value={this.state.searchKeyword}
+              onChange={this.handleValueChange}
             />
           </Search>
         </Toolbar>
@@ -223,22 +240,10 @@ render() { //render는 return 구문을 써서 반환
             </TableRow>
           </TableHead>
           <TableBody>
-            {this.state.customers ? 
-              this.state.customers.map(c => (
-              <Customer 
-                stateRefresh={this.stateRefresh}
-                key={c.id} /* 고객 고유 id를 key로 사용 */
-                id={c.id} 
-                image={c.image} 
-                name={c.name} 
-                birthday={c.birthday} 
-                gender={c.gender} 
-                job={c.job} 
-                imageWidth={this.state.imageWidth} //동적인 이미지 전달
-              />  
-            )
-          ) : (
-            <TableRow>
+            {this.state.customers ? (
+              filteredComponents(this.state.customers) 
+            ) : ( 
+            <TableRow> 
               <TableCell colSpan="6" align="center">
                 <CircularProgressWithLabel value={this.state.completed} />           
               </TableCell>
@@ -251,5 +256,6 @@ render() { //render는 return 구문을 써서 반환
 );
 }
 }
+
 
 export default App;
